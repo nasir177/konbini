@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-import Topbanner from "../components/Topbanner";
+import Topbanner from "../components/TopBanner";
 import TopNavSection from "../components/TopNavSection";
 import ProductDetail from "../components/ProductDetail";
 import Footer from "../components/Footer";
