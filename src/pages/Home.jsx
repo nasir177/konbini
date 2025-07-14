@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import Topbanner from "../components/Topbanner";
+import Topbanner from "../components/TopBanner";
 import TopNavSection from "../components/TopNavSection";
 import CategoryBar from "../components/CategoryBar";
 import CategoryChips from "../components/CategoryChips";
