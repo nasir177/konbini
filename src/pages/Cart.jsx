@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CartSummary from "../components/CartSummary";
 import ProductCard from "../components/ProductCard";
-import TopBanner from "../components/Topbanner";
+import TopBanner from "../components/TopBanner";
 import TopNavSection from "../components/TopNavSection";
 import CategoryChips from "../components/CategoryChips";
 import axios from "axios";
