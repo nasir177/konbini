@@ -4,7 +4,7 @@ import {
   incrementQuantity,
   decrementQuantity,
   removeFromCart,
-} from "../store/cartSlice";
+} from "../store/CartSlice";
 
 import {
   PackageCheck,
