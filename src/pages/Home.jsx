@@ -8,7 +8,8 @@ import CategoryChips from "../components/CategoryChips";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/Footer";
 
-import BASE_URL from "../BASE_URL"; // ✅ Import backend URL
+import BASE_URL from "../BASE_URL"; // ✅ must be default import
+
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("Frozen");

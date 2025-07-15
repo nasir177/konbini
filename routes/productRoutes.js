@@ -7,7 +7,6 @@ function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-// ✅ GET /api/products?category=&subcategory=&search=
 router.get("/", async (req, res) => {
   try {
     const { category, subcategory, search } = req.query;
@@ -35,9 +34,6 @@ router.get("/", async (req, res) => {
     }
 
     const query = filter.length > 0 ? { $and: filter } : {};
-
-    console.log("👉 Filter used:", JSON.stringify(query, null, 2));
-
     const products = await Product.find(query);
     res.json(products);
   } catch (error) {
@@ -46,15 +42,12 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ✅ ADD THIS BELOW
 router.get("/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-
     res.json(product);
   } catch (error) {
     console.error("❌ Error fetching product by ID:", error.message);
