@@ -8,6 +8,8 @@ import CategoryChips from "../components/CategoryChips";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/Footer";
 
+import BASE_URL from "../BASE_URL"; // ✅ Import backend URL
+
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("Frozen");
   const [subcategory, setSubcategory] = useState("All");
@@ -18,12 +20,15 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("/api/products", {
+
+        // ✅ API call to your Render backend
+        const res = await axios.get(`${BASE_URL}/api/products`, {
           params: { category: selectedCategory },
         });
+
         const data = res.data || [];
 
-        // filter client-side by subcategory if not "All"
+        // ✅ Filter by subcategory on frontend
         const filtered =
           subcategory === "All"
             ? data
@@ -50,7 +55,7 @@ const Home = () => {
         selectedCategory={selectedCategory}
         onSelect={(cat) => {
           setSelectedCategory(cat);
-          setSubcategory("All"); // reset subcategory on main category change
+          setSubcategory("All");
         }}
       />
 
@@ -59,12 +64,11 @@ const Home = () => {
           {selectedCategory} Products
         </h2>
 
-       <CategoryChips
-  selectedCategory={selectedCategory}
-  selectedSub={subcategory}
-  onSelect={setSubcategory}
-/>
-
+        <CategoryChips
+          selectedCategory={selectedCategory}
+          selectedSub={subcategory}
+          onSelect={setSubcategory}
+        />
 
         <p className="text-gray-600 mt-2 mb-6">
           {loading ? "Loading..." : `${products.length} results`}

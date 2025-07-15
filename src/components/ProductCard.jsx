@@ -1,4 +1,3 @@
-// ✅ ProductCard.jsx (must have correct navigate logic)
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/CartSlice";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,7 +20,6 @@ export default function ProductCard({ product }) {
   }
 
   const { _id, name = "Unnamed", price = 0, discount = 0, image = "" } = product;
-
   const discountedPrice = (price * (1 - discount / 100)).toFixed(2);
 
   const handleAdd = (e) => {
@@ -39,14 +37,12 @@ export default function ProductCard({ product }) {
       onClick={handleNavigate}
       className="relative bg-white rounded-xl shadow-md hover:shadow-lg transition-all w-full max-w-[255px] p-6 flex flex-col gap-2"
     >
-      {/* Discount Badge */}
       {discount > 0 && (
         <div className="absolute top-2 left-2 bg-red-500 text-white text-[10px] px-2 py-[1px] rounded-full shadow">
           {discount}% OFF
         </div>
       )}
 
-      {/* Favorite Icon */}
       <div
         className="absolute top-2 right-2 text-lg text-red-500 cursor-pointer"
         onClick={(e) => {
@@ -57,7 +53,6 @@ export default function ProductCard({ product }) {
         {liked ? <AiFillHeart /> : <AiOutlineHeart />}
       </div>
 
-      {/* Product Image */}
       <div className="aspect-square flex items-center justify-center">
         <img
           src={image}
@@ -66,22 +61,16 @@ export default function ProductCard({ product }) {
         />
       </div>
 
-      {/* Product Name */}
-      <h3
-        className="text-sm font-semibold text-gray-800 truncate"
-        title={name}
-      >
+      <h3 className="text-sm font-semibold text-gray-800 truncate" title={name}>
         {name}
       </h3>
 
-      {/* Star Rating */}
       <div className="flex gap-1 text-yellow-400 text-sm">
         {[...Array(5)].map((_, i) => (
           <AiFillStar key={i} />
         ))}
       </div>
 
-      {/* Price */}
       <div className="flex items-center gap-2 text-sm font-bold text-blue-600">
         <span>${discountedPrice}</span>
         {discount > 0 && (
@@ -91,7 +80,6 @@ export default function ProductCard({ product }) {
         )}
       </div>
 
-      {/* Add to Cart Button */}
       <div className="flex justify-end mt-1 relative">
         <motion.button
           onClick={handleAdd}
