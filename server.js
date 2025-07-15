@@ -11,7 +11,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://konbinii-ewwlu54nl-nasir177s-projects.vercel.app"
+      "https://konbini-6tm9.vercel.app", 
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
