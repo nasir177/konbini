@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
+
 import CartSummary from "../components/CartSummary";
 import ProductCard from "../components/ProductCard";
 import TopBanner from "../components/TopBanner";
 import TopNavSection from "../components/TopNavSection";
 import CategoryChips from "../components/CategoryChips";
-import axios from "axios";
 
+import BASE_URL from "../BASE_URL"; // ✅ Default import
 
 const Cart = () => {
   const [subcategory, setSubcategory] = useState("All");
@@ -14,16 +16,18 @@ const Cart = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("/api/products?category");
+        const res = await axios.get(`${BASE_URL}/api/products`);
         const data = res.data || [];
-        // Filter by subcategory (if not "All")
+
+        // ✅ Filter by subcategory only if it's not "All"
         const filtered =
           subcategory === "All"
             ? data
             : data.filter((item) => item.subcategory === subcategory);
+
         setProducts(filtered);
       } catch (err) {
-        console.error("Error fetching recommendations:", err);
+        console.error("❌ Error fetching recommendations:", err);
         setProducts([]);
       }
     };
@@ -62,7 +66,6 @@ const Cart = () => {
           )}
         </div>
       </div>
-    
     </>
   );
 };
