@@ -9,8 +9,8 @@ import {
   LocateFixed,
 } from "lucide-react";
 import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import CartDrawer from "./CartDrawer";
-import { Link } from "react-router-dom";
 
 export default function TopNavSection({ search, setSearch, onSearchSubmit }) {
   const [language, setLanguage] = useState("en");
@@ -22,6 +22,7 @@ export default function TopNavSection({ search, setSearch, onSearchSubmit }) {
 
   const cartItems = useSelector((state) => state.cart.cartItems);
   const cartCount = cartItems.length;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const today = new Date();
@@ -34,7 +35,7 @@ export default function TopNavSection({ search, setSearch, onSearchSubmit }) {
   const getLiveLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        async (pos) => {
+        (pos) => {
           const { latitude, longitude } = pos.coords;
           setLocation(`${latitude.toFixed(2)}, ${longitude.toFixed(2)}`);
         },
@@ -46,34 +47,35 @@ export default function TopNavSection({ search, setSearch, onSearchSubmit }) {
   };
 
   return (
-    <div className="sticky top-0 z-50 bg-white border-b shadow text-sm font-sans">
+    <div className="sticky top-0 z-[40] bg-white border-b shadow text-sm font-sans">
       {/* Top Row */}
-      <div className="flex items-center justify-between px-4 md:px-6 py-3">
-       {/* Logo */}
-<div className="flex items-center gap-4">
-  <Link to="/home">
-    <img
-      src="/images/konbini-logo.png"
-      alt="Konbini Logo"
-      className="w-28 h-auto object-contain cursor-pointer"
-    />
-  </Link>
-</div>
+      <div className="flex flex-wrap items-center justify-between px-4 md:px-6 py-3 gap-2 md:gap-0">
+        {/* Logo */}
+        <div className="flex items-center gap-4">
+          <Link to="/home">
+            <img
+              src="/images/konbini-logo.png"
+              alt="Konbini Logo"
+              className="min-w-[80px] w-24 md:w-28 h-auto object-contain cursor-pointer"
+            />
+          </Link>
+        </div>
 
         {/* Search Bar */}
         <form
           onSubmit={onSearchSubmit}
-          className="flex-1 mx-4 flex items-center w-500 bg-white rounded-full shadow-xl px-6 py-6 border border-gray-200 hover:border-gray-300 transition-all duration-300"
+          className="flex-1 mx-2 flex items-center max-w-full sm:max-w-[240px] md:max-w-[700px] bg-white rounded-xl shadow-md px-3 py-2 border border-gray-300 focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-300 transition-all duration-200"
         >
-         <input
-  type="text"
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-  onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      navigate(`/home?search=${encodeURIComponent(search)}`);
-    }
-  }}
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                navigate(`/home?search=${encodeURIComponent(search)}`);
+              }
+            }}
             placeholder={
               language === "ja"
                 ? "ラーメン、寿司、カレー..."
@@ -81,7 +83,7 @@ export default function TopNavSection({ search, setSearch, onSearchSubmit }) {
                 ? "라면, 김밥, 치킨..."
                 : "ramen, sushi, curry..."
             }
-            className="input-class flex-1 bg-transparent outline-none text-base"
+            className="flex-1 bg-transparent outline-none text-base"
           />
           <button
             type="submit"
@@ -92,8 +94,8 @@ export default function TopNavSection({ search, setSearch, onSearchSubmit }) {
           </button>
         </form>
 
-        {/* Right Side */}
-        <div className="hidden md:flex items-center gap-6">
+        {/* Right Controls */}
+        <div className="flex items-center gap-3 md:gap-6 flex-wrap md:flex-nowrap text-gray-700">
           {/* Language Selector */}
           <div className="relative">
             <button
@@ -101,17 +103,15 @@ export default function TopNavSection({ search, setSearch, onSearchSubmit }) {
               className="flex items-center gap-1 font-medium hover:text-blue-600"
             >
               <Globe size={16} />
-              <span>
-                {language === "ja"
-                  ? "日本語"
-                  : language === "ko"
-                  ? "한국어"
-                  : "English"}
-              </span>
+              {language === "ja"
+                ? "日本語"
+                : language === "ko"
+                ? "한국어"
+                : "English"}
               <ChevronDown size={16} />
             </button>
             {languageOpen && (
-              <div className="absolute left-0 top-8 bg-white rounded shadow text-sm w-40 z-10 border border-gray-200">
+              <div className="absolute left-0 top-8 bg-white rounded shadow text-sm w-36 z-50 border border-gray-200">
                 {["en", "ja", "ko"].map((lang) => (
                   <button
                     key={lang}
@@ -139,11 +139,11 @@ export default function TopNavSection({ search, setSearch, onSearchSubmit }) {
               className="flex items-center gap-1 font-medium hover:text-blue-600"
             >
               <MapPin size={16} />
-              <span>{location}</span>
+              {location}
               <ChevronDown size={16} />
             </button>
             {locationOpen && (
-              <div className="absolute left-0 top-8 bg-white rounded shadow text-sm w-48 z-10 border-gray-200">
+              <div className="absolute left-0 top-8 bg-white rounded shadow text-sm w-48 z-50 border border-gray-200">
                 <button
                   onClick={() => {
                     setLocation("Japan");
@@ -177,7 +177,8 @@ export default function TopNavSection({ search, setSearch, onSearchSubmit }) {
 
           {/* Date */}
           <div className="flex items-center gap-1 text-gray-600 font-medium">
-            <CalendarDays size={16} /> {currentDate}
+            <CalendarDays size={16} />
+            {currentDate}
           </div>
 
           {/* Cart */}
@@ -186,58 +187,13 @@ export default function TopNavSection({ search, setSearch, onSearchSubmit }) {
             className="relative flex items-center gap-2 bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-full"
           >
             <ShoppingCart size={20} />
-            My Cart
+            <span className="hidden sm:inline">My Cart</span>
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-white text-blue-900 font-bold text-xs px-2 py-0.5 rounded-full border border-blue-900">
                 {cartCount}
               </span>
             )}
           </button>
-        </div>
-      </div>
-
-      {/* Mobile Language / Location / Cart Controls */}
-      <div className="md:hidden px-4 py-2 flex items-center justify-between gap-2 text-sm">
-        <div className="relative">
-          <button
-            onClick={() => setLanguageOpen(!languageOpen)}
-            className="flex items-center gap-1 text-gray-700 hover:text-blue-700"
-          >
-            <Globe size={16} />
-            {language === "ja"
-              ? "日本語"
-              : language === "ko"
-              ? "한국어"
-              : "English"}
-            <ChevronDown size={14} />
-          </button>
-        </div>
-        <div className="relative">
-          <button
-            onClick={() => setLocationOpen(!locationOpen)}
-            className="flex items-center gap-1 text-gray-700 hover:text-blue-700"
-          >
-            <MapPin size={16} />
-            {location}
-            <ChevronDown size={14} />
-          </button>
-        </div>
-        <div className="flex items-center gap-1 text-gray-600">
-          <CalendarDays size={16} />
-          {currentDate}
-        </div>
-        <div className="relative">
-          <button
-            onClick={() => setShowCart(true)}
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-900 hover:bg-blue-800 text-white transition-colors"
-          >
-            <ShoppingCart size={20} />
-          </button>
-          {cartCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-white text-blue-900 font-bold text-[10px] px-1.5 py-0.5 rounded-full border border-blue-900 shadow-sm">
-              {cartCount}
-            </span>
-          )}
         </div>
       </div>
 

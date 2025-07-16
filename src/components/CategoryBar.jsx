@@ -20,7 +20,7 @@ const categories = [
 
 export default function CategoryBar({ selectedCategory, onSelect }) {
   return (
-    <div className="sticky top-0 z-50 bg-white shadow overflow-x-auto whitespace-nowrap py-3 px-4 border-gray-300 border-b">
+    <div className="sticky top-0 z-[30] bg-white shadow overflow-x-auto whitespace-nowrap py-3 px-4 border-gray-300 border-b">
       <div className="flex gap-4 min-w-full w-max">
         {categories.map((cat) => (
           <button

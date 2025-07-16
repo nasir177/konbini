@@ -1,96 +1,66 @@
 // components/Footer.jsx
 import { useState } from "react";
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
-  Linkedin,
-  Mail
-} from "lucide-react";
 
 const footerData = [
   {
-    title: "Connect",
+    title: "Product Info",
     links: [
-      { name: "Facebook", href: "#" },
-      { name: "Twitter", href: "#" },
-      { name: "Instagram", href: "#" },
-      { name: "YouTube", href: "#" },
-      { name: "LINE", href: "#" },
-      { name: "App", href: "#" },
-      { name: "Newsletter", href: "#" },
-      { name: "Commercial Video", href: "#" },
-      { name: "Our Initiatives", href: "#" },
-    ],
-  },
-  {
-    title: "Product Information",
-    links: [
-      { name: "New products this week", href: "#" },
-      { name: "New products next week", href: "#" },
-      { name: "Allergy info & nutrition", href: "#" },
-      { name: "Fried food, Franks, Yakitori", href: "#" },
-      { name: "Oden / Chinese buns", href: "#" },
-      { name: "Seven Cafe", href: "#" },
-      { name: "Now accepting reservations", href: "#" },
-      { name: "Bento / Gifts", href: "#" },
-      { name: "Sales Campaigns", href: "#" },
-    ],
-  },
-  {
-    title: "Services",
-    links: [
-      { name: "Multi-copy machine", href: "#" },
-      { name: "Copy / Print", href: "#" },
-      { name: "Scan / Fax", href: "#" },
-      { name: "Ticket", href: "#" },
-      { name: "Prepaid Service", href: "#" },
-      { name: "Lottery / Government Services", href: "#" },
-      { name: "Insurance / Education", href: "#" },
-      { name: "nanaco", href: "#" },
-      { name: "Courier", href: "#" },
-    ],
-  },
-  {
-    title: "Store & Payment",
-    links: [
-      { name: "Postage / Stamps", href: "#" },
-      { name: "Seven Bank ATM", href: "#" },
-      { name: "Available Payment Methods", href: "#" },
-      { name: "Paying Bills", href: "#" },
-      { name: "Photo Services", href: "#" },
-      { name: "Cleaning Club", href: "#" },
-      { name: "Delivery Lockers", href: "#" },
-      { name: "Bicycle / Battery Sharing", href: "#" },
+      { name: "Campaign", href: "#" },
+      { name: "Services", href: "#" },
+      { name: "Konbini Points", href: "#" },
+      { name: "Konbini T Card", href: "#" },
     ],
   },
   {
     title: "Company",
     links: [
-      { name: "Greetings", href: "#" },
-      { name: "Company Profile", href: "#" },
+      { name: "Company Info", href: "#" },
+      { name: "Recruitment", href: "#" },
       { name: "News Release", href: "#" },
-      { name: "Philosophy", href: "#" },
-      { name: "Store Numbers", href: "#" },
-      { name: "Sales & Stats", href: "#" },
-      { name: "History", href: "#" },
-      { name: "Balance Sheet", href: "#" },
+      { name: "Sustainability", href: "#" },
     ],
   },
   {
-    title: "Sustainability & Contact",
+    title: "Policies",
     links: [
-      { name: "Founding Philosophy", href: "#" },
-      { name: "Challenges & Change", href: "#" },
-      { name: "GREEN CHALLENGE 2050", href: "#" },
-      { name: "Reports & News", href: "#" },
-      { name: "Store Locator", href: "#" },
-      { name: "Online Shopping", href: "#" },
+      { name: "Privacy Policy", href: "#" },
+      { name: "Terms of Use", href: "#" },
+      { name: "Sitemap", href: "#" },
       { name: "Contact Us", href: "#" },
-      { name: "Recruitment & Jobs", href: "#" },
-      { name: "Franchise / Property", href: "#" },
     ],
+  },
+];
+
+const socialIcons = [
+  {
+    name: "Twitter",
+    href: "#",
+    src: "https://img.icons8.com/?size=100&id=phOKFKYpe00C&format=png",
+  },
+  {
+    name: "Instagram",
+    href: "#",
+    src: "https://www.svgrepo.com/show/452229/instagram-1.svg",
+  },
+  {
+    name: "LINE",
+    href: "#",
+    src: "https://img.icons8.com/?size=96&id=21746&format=png",
+  },
+  {
+    name: "Facebook",
+    href: "#",
+    src: "https://img.icons8.com/?size=96&id=lRtQAp17Ei7V&format=gif",
+  },
+  {
+    name: "YouTube",
+    href: "#",
+    src: "https://img.icons8.com/?size=96&id=19318&format=png",
+  },
+  {
+    name: "TikTok",
+    href: "#",
+    src: "https://img.icons8.com/?size=96&id=kM0cd7be1NC1&format=gif",
   },
 ];
 
@@ -98,46 +68,39 @@ export default function Footer() {
   const [expanded, setExpanded] = useState(null);
 
   return (
-    <footer className="bg-gray-900 text-gray-300 text-sm mt-10">
-      <div className="max-w-screen-xl mx-auto px-4 py-10">
-        {/* Newsletter */}
-        <div className="mb-10 flex flex-col lg:flex-row justify-between items-center gap-4 border-b border-gray-700 pb-6">
-          <div className="text-white font-semibold text-lg">
-            📬 Subscribe to our Newsletter
-          </div>
-          <div className="flex w-full lg:w-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 rounded-l bg-white text-gray-900"
+    <footer className="bg-gray-100 border-t text-sm text-gray-700">
+      <div className="max-w-screen-xl mx-auto px-4 py-10 space-y-8">
+        {/* Top: Logo + Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
+          {/* Logo Section */}
+          <div className="flex flex-col gap-4">
+            <img
+              src="/images/konbini-logo.png"
+              alt="Konbini Logo"
+              className="w-28 object-contain"
             />
-            <button className="bg-red-600 hover:bg-pink-700 px-4 py-2 rounded-r text-white font-medium">
-              Subscribe
-            </button>
           </div>
-        </div>
 
-        {/* Footer Sections */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+          {/* Footer Links */}
           {footerData.map((section, index) => (
             <div key={index}>
               <button
-                onClick={() =>
-                  setExpanded(expanded === index ? null : index)
-                }
-                className="text-white font-bold w-full flex justify-between items-center lg:cursor-default lg:pointer-events-none"
+                onClick={() => setExpanded(expanded === index ? null : index)}
+                className="font-bold flex justify-between w-full md:pointer-events-none"
               >
                 {section.title}
-                <span className="lg:hidden">{expanded === index ? "−" : "+"}</span>
+                <span className="md:hidden">{expanded === index ? "−" : "+"}</span>
               </button>
               <ul
-                className={`mt-2 space-y-1 ${
-                  expanded === index || window.innerWidth >= 1024 ? "block" : "hidden"
+                className={`mt-2 space-y-2 ${
+                  expanded === index || typeof window !== "undefined" && window.innerWidth >= 768
+                    ? "block"
+                    : "hidden"
                 }`}
               >
                 {section.links.map((link, idx) => (
                   <li key={idx}>
-                    <a href={link.href} className="hover:underline block">
+                    <a href={link.href} className="hover:text-blue-600 block transition">
                       {link.name}
                     </a>
                   </li>
@@ -147,33 +110,42 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Bottom: Social + Language */}
-        <div className="border-t border-gray-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex gap-3 text-gray-400">
-            <a href="#" className="hover:text-white"><Facebook size={18} /></a>
-            <a href="#" className="hover:text-white"><Twitter size={18} /></a>
-            <a href="#" className="hover:text-white"><Instagram size={18} /></a>
-            <a href="#" className="hover:text-white"><Youtube size={18} /></a>
-            <a href="#" className="hover:text-white"><Linkedin size={18} /></a>
-            <a href="#" className="hover:text-white"><Mail size={18} /></a>
+        {/* Social + Language */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-t pt-6">
+          {/* Social Media Icons */}
+          <div className="flex gap-4">
+            {socialIcons.map((icon, idx) => (
+              <a
+                key={idx}
+                href={icon.href}
+                aria-label={icon.name}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={icon.src}
+                  alt={icon.name}
+                  className="w-6 h-6 hover:scale-110 transition-transform"
+                />
+              </a>
+            ))}
           </div>
 
-          <div className="flex flex-wrap justify-center gap-3 text-xs text-gray-400">
-            <span>English (Corporate)</span>
-            <span>English (Services)</span>
+          {/* Language Selector */}
+          <div className="flex flex-wrap justify-center gap-3 text-xs text-gray-500">
+            <span>日本語</span>
+            <span>English</span>
+            <span>한국어</span>
             <span>繁體中文</span>
             <span>简体中文</span>
-            <span>한국어</span>
-            <span>ภาษาไทย</span>
           </div>
         </div>
 
-        {/* Copyright */}
+        {/* Legal */}
         <div className="text-center text-xs text-gray-500 mt-6">
-          © SEVEN-ELEVEN JAPAN CO.,LTD. All Rights Reserved.
+          © 2025 Konbini Inc. All Rights Reserved.
         </div>
       </div>
     </footer>
   );
 }
-
