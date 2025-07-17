@@ -16,7 +16,10 @@ const Cart = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const url = `/api/products?category=${selectedCategory}`;
+    const url = `/api/products?category=${encodeURIComponent(selectedCategory)}`;
+    if (subcategory !== "All") {
+      url += `&subcategory=${encodeURIComponent(subcategory)}`;
+    }
     setLoading(true);
     axios
       .get(url)
