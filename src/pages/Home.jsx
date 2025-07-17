@@ -33,7 +33,7 @@ const Home = () => {
         const filtered =
           subcategory === "All"
             ? data
-            : data.filter((item) => item.subcategory === subcategory);
+               : data.filter((item) => item.subcategory === subcategory);
 
         setProducts(filtered);
       } catch (err) {
