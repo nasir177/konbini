@@ -1,5 +1,5 @@
 // models/Product.js
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const ProductSchema = new mongoose.Schema({
   name: String,
@@ -11,4 +11,6 @@ const ProductSchema = new mongoose.Schema({
   subCategory: String,
 });
 
-module.exports = mongoose.model("Product", ProductSchema);
+const Product = mongoose.model("Product", ProductSchema);
+
+export default Product;
