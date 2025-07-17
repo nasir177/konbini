@@ -54,11 +54,12 @@ export default function ProductCard({ product }) {
       </div>
 
       <div className="aspect-square flex items-center justify-center">
-        <img
-          src={image}
-          alt={name}
-          className="bg-amber-100 h-28 w-28 object-contain"
-        />
+     <img
+       src={image || "https://via.placeholder.com/150"}
+       alt={name}
+       className="bg-amber-100 h-28 w-28 object-contain"
+    />
+
       </div>
 
       <h3 className="text-sm font-semibold text-gray-800 truncate" title={name}>

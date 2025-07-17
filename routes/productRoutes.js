@@ -3,10 +3,12 @@ import Product from "../models/Product.js";
 
 const router = express.Router();
 
+// Escape special characters for regex
 function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+// GET all products (with optional filters)
 router.get("/", async (req, res) => {
   try {
     const { category, subcategory, search } = req.query;
@@ -35,6 +37,11 @@ router.get("/", async (req, res) => {
 
     const query = filter.length > 0 ? { $and: filter } : {};
     const products = await Product.find(query);
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({ message: "No products found" });
+    }
+
     res.json(products);
   } catch (error) {
     console.error("❌ Error fetching products:", error.message);
@@ -42,6 +49,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// GET single product by ID
 router.get("/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);

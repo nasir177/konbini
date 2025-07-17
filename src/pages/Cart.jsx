@@ -14,11 +14,11 @@ const Cart = () => {
   const [products, setProducts] = useState([]);
   const [suggestedProducts, setSuggestedProducts] = useState([]);
 
-  // ✅ Fetch products based on category and subcategory
+  // Fetch products based on category/subcategory
   useEffect(() => {
     let url = `/api/products?category=${category}`;
     if (subcategory !== "All") {
-      url += `&subcategory=${subcategory}`; // ✅ fixed the key to match backend
+      url += `&subcategory=${subcategory}`; // backend param fix
     }
 
     axios
@@ -27,7 +27,7 @@ const Cart = () => {
       .catch((err) => console.error("❌ Error fetching products:", err));
   }, [category, subcategory]);
 
-  // ✅ Fetch horizontal "You might also like" products
+  // Fetch suggested products for horizontal scroll
   useEffect(() => {
     axios
       .get(`/api/products?category=${category}&limit=10`)
@@ -37,42 +37,38 @@ const Cart = () => {
 
   return (
     <div>
-      <TopBanner />
       <TopNavSection />
 
+      {/* Main Cart Page Content */}
       <div className="p-4">
+        <CartSummary />
+      </div>
+
+      {/* ✅ Moved TopBanner and Category Chips + Products below CartSummary */}
+      <TopBanner />
+
+      <div className="p-4 mt-4">
         <h1 className="text-2xl font-bold mb-4">{category}</h1>
+
+        <CategoryChips
+          category={category}
+          subcategory={subcategory}
+          setSubcategory={setSubcategory}
+        />
 
         <div className="text-gray-600 text-sm mb-2">
           Showing {products.length} products
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {/* ✅ Horizontal Scroll for Product Cards */}
+        <div className="flex overflow-x-auto space-x-4 scrollbar-hide pb-4">
           {products.map((item) => (
-            <ProductCard key={item._id || item.name} product={item} />
-          ))}
-        </div>
-      </div>
-
-      <CategoryChips
-        category={category}
-        subcategory={subcategory}
-        setSubcategory={setSubcategory}
-      />
-
-      {/* ✅ Horizontal Scroll Section */}
-      <div className="p-4 mt-8">
-        <h2 className="text-xl font-semibold mb-2">You might also like</h2>
-        <div className="flex overflow-x-auto space-x-4 scrollbar-hide">
-          {suggestedProducts.map((item) => (
             <div key={item._id || item.name} className="min-w-[180px]">
               <ProductCard product={item} />
             </div>
           ))}
         </div>
       </div>
-
-      <CartSummary />
     </div>
   );
 };
