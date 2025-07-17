@@ -6,44 +6,72 @@ import CartSummary from "../components/CartSummary";
 import ProductCard from "../components/ProductCard";
 import TopBanner from "../components/TopBanner";
 import TopNavSection from "../components/TopNavSection";
+import CategoryChips from "../components/CategoryChips";
+import CategoryBar from "../components/CategoryBar";
 
 const Cart = () => {
-  const [category] = useState("Frozen Food");
+  const [selectedCategory, setSelectedCategory] = useState("Frozen Food");
+  const [subcategory, setSubcategory] = useState("All");
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Fetch default category products (Frozen Food)
   useEffect(() => {
-    const url = `/api/products?category=${category}`;
+    const url = `/api/products?category=${selectedCategory}`;
+    setLoading(true);
     axios
       .get(url)
       .then((res) => setProducts(res.data))
-      .catch((err) => console.error("❌ Error fetching products:", err));
-  }, [category]);
+      .catch((err) => console.error("❌ Error fetching products:", err))
+      .finally(() => setLoading(false));
+  }, [selectedCategory]);
 
   return (
     <div>
+      {/* Top banner */}
       <TopBanner />
+
+      {/* Navigation and Cart */}
       <TopNavSection />
+      <CartSummary />
 
-      <div className="p-4">
-        <CartSummary />
-      </div>
+ 
 
-      <div className="p-4 mt-4">
-        <h1 className="text-2xl font-bold mb-4">{category}</h1>
+      {/* Category Bar */}
+      <CategoryBar
+        selectedCategory={"Snacks"}
+        onSelect={(cat) => {
+          setSelectedCategory(cat);
+          setSubcategory("All");
+        }}
+      />
 
-        <div className="text-gray-600 text-sm mb-2">
-          Showing {products.length} products
-        </div>
+      {/* Product Section */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <h2 className="text-xl font-bold text-blue-900 mb-4">
+          {selectedCategory} Products
+        </h2>
 
-        {/* ✅ Horizontal Scroll with Hidden Scrollbar */}
-        <div className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide">
-          {products.map((item) => (
-            <div key={item._id || item.name} className="min-w-[180px]">
-              <ProductCard product={item} />
+     
+
+        <p className="text-gray-600 mt-2 mb-4">
+          {loading ? "Loading..." : `${products.length} results`}
+        </p>
+
+        {loading ? (
+          <p className="text-center text-gray-500 mt-10">Loading products...</p>
+        ) : products.length > 0 ? (
+          <div className="overflow-x-auto scrollbar-hide">
+            <div className="flex gap-4 w-max">
+              {products.map((product) => (
+                <div key={product._id} className="min-w-[200px] max-w-xs">
+                  <ProductCard product={product} />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ) : (
+          <p className="text-gray-400 mt-10">No products found.</p>
+        )}
       </div>
     </div>
   );
