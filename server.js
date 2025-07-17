@@ -12,11 +12,13 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://konbini-6tm9.vercel.app", 
+      "https://konbinii-bvyocpzjr-nasir177s-projects.vercel.app", // ✅ Add this
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 mongoose
