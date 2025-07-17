@@ -9,6 +9,8 @@ import TopNavSection from "../components/TopNavSection";
 import CategoryChips from "../components/CategoryChips";
 import CategoryBar from "../components/CategoryBar";
 
+import BASE_URL from "../BASE_URL"; // ✅ include this
+
 const Cart = () => {
   const [selectedCategory, setSelectedCategory] = useState("Frozen Food");
   const [subcategory, setSubcategory] = useState("All");
@@ -16,17 +18,27 @@ const Cart = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const url = `/api/products?category=${encodeURIComponent(selectedCategory)}`;
-    if (subcategory !== "All") {
-      url += `&subcategory=${encodeURIComponent(subcategory)}`;
-    }
-    setLoading(true);
-    axios
-      .get(url)
-      .then((res) => setProducts(res.data))
-      .catch((err) => console.error("❌ Error fetching products:", err))
-      .finally(() => setLoading(false));
-  }, [selectedCategory]);
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`${BASE_URL}/api/products`, {
+          params: {
+            category: selectedCategory,
+            subcategory: subcategory !== "All" ? subcategory : undefined,
+          },
+        });
+
+        setProducts(res.data || []);
+      } catch (err) {
+        console.error("❌ Error fetching products:", err);
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [selectedCategory, subcategory]);
 
   return (
     <div>
@@ -37,15 +49,20 @@ const Cart = () => {
       <TopNavSection />
       <CartSummary />
 
- 
-
       {/* Category Bar */}
       <CategoryBar
-        selectedCategory={"Snacks"}
+        selectedCategory={selectedCategory}
         onSelect={(cat) => {
           setSelectedCategory(cat);
           setSubcategory("All");
         }}
+      />
+
+      {/* Subcategory Chips */}
+      <CategoryChips
+        selectedCategory={selectedCategory}
+        selectedSub={subcategory}
+        onSelect={setSubcategory}
       />
 
       {/* Product Section */}
@@ -53,8 +70,6 @@ const Cart = () => {
         <h2 className="text-xl font-bold text-blue-900 mb-4">
           {selectedCategory} Products
         </h2>
-
-     
 
         <p className="text-gray-600 mt-2 mb-4">
           {loading ? "Loading..." : `${products.length} results`}
