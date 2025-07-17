@@ -12,13 +12,13 @@ const Cart = () => {
   const [category, setCategory] = useState("Frozen Food");
   const [subcategory, setSubcategory] = useState("All");
   const [products, setProducts] = useState([]);
-  const [suggestedProducts, setSuggestedProducts] = useState([]); // 👈 additional horizontal products
+  const [suggestedProducts, setSuggestedProducts] = useState([]);
 
-  // Fetch main category/subcategory products
+  // ✅ Fetch products based on category and subcategory
   useEffect(() => {
     let url = `/api/products?category=${category}`;
     if (subcategory !== "All") {
-      url += `&subCategory=${subcategory}`;
+      url += `&subcategory=${subcategory}`; // ✅ fixed the key to match backend
     }
 
     axios
@@ -27,24 +27,21 @@ const Cart = () => {
       .catch((err) => console.error("❌ Error fetching products:", err));
   }, [category, subcategory]);
 
-  // Fetch additional products (suggested section)
+  // ✅ Fetch horizontal "You might also like" products
   useEffect(() => {
     axios
-      .get(`/api/products?category=${category}&limit=10`) // adjust as needed
+      .get(`/api/products?category=${category}&limit=10`)
       .then((res) => setSuggestedProducts(res.data))
       .catch((err) => console.error("❌ Error fetching suggested products:", err));
   }, [category]);
 
   return (
     <div>
-       <TopBanner />
+      <TopBanner />
       <TopNavSection />
-     
 
       <div className="p-4">
         <h1 className="text-2xl font-bold mb-4">{category}</h1>
-
-     
 
         <div className="text-gray-600 text-sm mb-2">
           Showing {products.length} products
@@ -56,13 +53,14 @@ const Cart = () => {
           ))}
         </div>
       </div>
-         <CategoryChips
-          category={category}
-          subcategory={subcategory}
-          setSubcategory={setSubcategory}
-        />
 
-      {/* Horizontal Scroll Section */}
+      <CategoryChips
+        category={category}
+        subcategory={subcategory}
+        setSubcategory={setSubcategory}
+      />
+
+      {/* ✅ Horizontal Scroll Section */}
       <div className="p-4 mt-8">
         <h2 className="text-xl font-semibold mb-2">You might also like</h2>
         <div className="flex overflow-x-auto space-x-4 scrollbar-hide">
