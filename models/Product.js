@@ -1,4 +1,6 @@
 // models/Product.js
+import mongoose from "mongoose";
+
 const ProductSchema = new mongoose.Schema({
   name: String,
   price: Number,
@@ -6,9 +8,8 @@ const ProductSchema = new mongoose.Schema({
   image: String,
   sideImages: [String],
   category: String,
-  subcategory: String, // ✅ fixed from subCategory
+  subCategory: String,
 });
 
 const Product = mongoose.model("Product", ProductSchema);
-
 export default Product;
