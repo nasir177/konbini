@@ -1,3 +1,4 @@
+// src/pages/Cart.jsx
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -7,66 +8,47 @@ import TopBanner from "../components/TopBanner";
 import TopNavSection from "../components/TopNavSection";
 import CategoryChips from "../components/CategoryChips";
 
-import BASE_URL from "../BASE_URL"; // ✅ Default import
-
 const Cart = () => {
+  const [category, setCategory] = useState("Frozen Food"); // default category
   const [subcategory, setSubcategory] = useState("All");
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/api/products`);
-        const data = res.data || [];
+    let url = `/api/products?category=${category}`;
+    if (subcategory !== "All") {
+      url += `&subCategory=${subcategory}`;
+    }
 
-        // ✅ Filter by subcategory only if it's not "All"
-        const filtered =
-          subcategory === "All"
-            ? data
-            : data.filter((item) => item.subcategory === subcategory);
-
-        setProducts(filtered);
-      } catch (err) {
-        console.error("❌ Error fetching recommendations:", err);
-        setProducts([]);
-      }
-    };
-
-    fetchProducts();
-  }, [subcategory]);
+    axios.get(url)
+      .then(res => setProducts(res.data))
+      .catch(err => console.error("Error fetching products:", err));
+  }, [category, subcategory]);
 
   return (
-    <>
-      <TopBanner />
+    <div>
       <TopNavSection />
+      <TopBanner />
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-4">{category}</h1>
+        <CategoryChips
+          category={category}
+          subcategory={subcategory}
+          setSubcategory={setSubcategory}
+        />
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-6">🛍️ Your Cart</h1>
-        <CartSummary />
-      </div>
+        <div className="text-gray-600 text-sm mb-2">
+          Showing {products.length} products
+        </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-6">🧊 Recommendations</h1>
-
-        <div className="px-4">
-          <CategoryChips
-            selected={subcategory}
-            onSelect={setSubcategory}
-          />
-          <p className="text-gray-600 my-2">{products.length} results</p>
-
-          {products.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8">
-              {products.map((item) => (
-                <ProductCard key={item._id} product={item} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-500 mt-4">No related products found.</p>
-          )}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {products.map((item) => (
+            <ProductCard key={item._id || item.name} product={item} />
+          ))}
         </div>
       </div>
-    </>
+
+      <CartSummary />
+    </div>
   );
 };
 

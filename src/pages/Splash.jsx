@@ -37,7 +37,7 @@ const Splash = () => {
         <source media="(max-width: 1023px)" srcSet="/images/splash-mobile.png" />
         {/* Fallback for desktop/tablet landscape */}
         <img
-          src="/images/splash-pc.png"
+          src="/images/konbini-logo-pc.png"
           alt="splash"
           className="absolute inset-0 w-full h-full object-cover z-0"
         />
