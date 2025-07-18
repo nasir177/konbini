@@ -7,14 +7,11 @@ import { motion } from "framer-motion";
 export default function ProductDetail({ product }) {
   const dispatch = useDispatch();
   const [liked, setLiked] = useState(false);
-
-  // ✅ Combine main image and gallery images safely (avoid duplicates)
   const images = Array.from(new Set([product.image, ...(product.gallery || [])]));
 
-  const handleAddToCart = () => {
-    dispatch(addToCart(product));
-  };
+  const [mainImg, setMainImg] = useState(images[0]);
 
+  const handleAddToCart = () => dispatch(addToCart(product));
   const toggleLike = () => setLiked(!liked);
 
   return (
@@ -22,26 +19,31 @@ export default function ProductDetail({ product }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-screen-2xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden">
 
         {/* ✅ LEFT: Image Gallery */}
-        <div className="flex flex-col md:flex-row gap-6 p-4">
+        <div className="flex flex-col md:flex-row gap-4 p-2">
           {/* Thumbnail list */}
-          <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto">
+          <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-[400px] md:max-h-full">
             {images.map((img, idx) => (
               <img
                 key={idx}
                 src={img}
                 alt={`thumb-${idx}`}
-                className="w-16 h-16 object-contain rounded-lg border cursor-pointer bg-white hover:scale-105 transition"
+                onClick={() => setMainImg(img)}
+                className={`w-16 h-16 object-contain rounded-lg border cursor-pointer ${
+                  mainImg === img ? "border-blue-500" : "border-gray-300"
+                } bg-white hover:scale-105 transition`}
               />
             ))}
           </div>
 
-          {/* Main image display */}
+          {/* Main image display with zoom */}
           <div className="flex-1 flex justify-center items-center bg-white rounded-xl p-4">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="h-60 object-contain"
-            />
+            <div className="relative overflow-hidden group w-full max-w-md">
+              <img
+                src={mainImg}
+                alt={product.name}
+                className="w-full h-60 md:h-96 object-contain transition-transform duration-300 ease-in-out group-hover:scale-110"
+              />
+            </div>
           </div>
         </div>
 
