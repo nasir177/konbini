@@ -1,11 +1,13 @@
 // src/components/ProductDetail.jsx
+
 import { useState } from "react";
-import { AiFillHeart, AiOutlineHeart, AiFillStar } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/CartSlice";
 import { motion } from "framer-motion";
 import clsx from "clsx";
 
+// Optional: If these flavors are not dynamic, you can keep them like this
 const variants = [
   { label: "Chicken", price: 10.99 },
   { label: "Seafood", price: 10.99 },
@@ -21,24 +23,25 @@ export default function ProductDetail({ product }) {
   const [liked, setLiked] = useState(false);
   const [selectedFlavor, setSelectedFlavor] = useState("Pork & Chicken");
 
-  const images = [
-    product?.image,
-    "https://img.weeecdn.net/image2.png",
-    "https://img.weeecdn.net/image3.png",
-  ];
+  // ✅ Combine main image and gallery images safely (avoid duplicates)
+  const images = Array.from(new Set([product.image, ...(product.gallery || [])]));
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
   };
 
   const toggleLike = () => setLiked(!liked);
+
+  // ✅ Find selected flavor's details
   const currentVariant = variants.find((v) => v.label === selectedFlavor);
 
   return (
     <div className="w-full min-h-screen bg-white p-4 md:p-8 animate-fade-in">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-screen-2xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden">
-        {/* Left side image gallery */}
+
+        {/* ✅ LEFT: Image Gallery */}
         <div className="flex flex-col md:flex-row gap-6 p-4">
+          {/* Thumbnail list */}
           <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto">
             {images.map((img, idx) => (
               <img
@@ -50,6 +53,7 @@ export default function ProductDetail({ product }) {
             ))}
           </div>
 
+          {/* Main image display */}
           <div className="flex-1 flex justify-center items-center bg-amber-100 rounded-xl p-4">
             <img
               src={product.image}
@@ -59,8 +63,9 @@ export default function ProductDetail({ product }) {
           </div>
         </div>
 
-        {/* Product Info */}
+        {/* ✅ RIGHT: Product Info */}
         <div className="flex flex-col justify-between p-4 md:p-6 gap-4">
+          {/* Product title + like */}
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-lg font-bold text-gray-600 uppercase tracking-widest">
@@ -73,6 +78,7 @@ export default function ProductDetail({ product }) {
             </button>
           </div>
 
+          {/* ✅ Price with optional discount */}
           <div className="text-2xl font-bold text-blue-600">
             ${currentVariant?.price?.toFixed(2)}
             {currentVariant?.discount && (
@@ -87,10 +93,12 @@ export default function ProductDetail({ product }) {
             )}
           </div>
 
+          {/* ✅ Tagline */}
           <p className="text-green-600 text-sm">
             ✅ Freshness guarantee ・ WEEKLY SOLD 1K+
           </p>
 
+          {/* ✅ Flavor selection buttons */}
           <div>
             <p className="text-sm font-medium text-gray-700 mb-1">
               Flavor: <span className="font-bold">{selectedFlavor}</span>
@@ -115,6 +123,7 @@ export default function ProductDetail({ product }) {
             </div>
           </div>
 
+          {/* ✅ Add to Cart Button */}
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleAddToCart}
