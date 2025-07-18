@@ -1,27 +1,12 @@
-// src/components/ProductDetail.jsx
-
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/CartSlice";
 import { motion } from "framer-motion";
-import clsx from "clsx";
-
-// Optional: If these flavors are not dynamic, you can keep them like this
-const variants = [
-  { label: "Chicken", price: 10.99 },
-  { label: "Seafood", price: 10.99 },
-  { label: "Pork & Chicken", price: 8.88, discount: 19 },
-  { label: "Vegetable", price: 10.99 },
-  { label: "Pork Shumai", price: 11.99 },
-  { label: "Shrimp Shumai", price: 11.99 },
-  { label: "Chicken Shumai", price: 11.99 },
-];
 
 export default function ProductDetail({ product }) {
   const dispatch = useDispatch();
   const [liked, setLiked] = useState(false);
-  const [selectedFlavor, setSelectedFlavor] = useState("Pork & Chicken");
 
   // ✅ Combine main image and gallery images safely (avoid duplicates)
   const images = Array.from(new Set([product.image, ...(product.gallery || [])]));
@@ -31,9 +16,6 @@ export default function ProductDetail({ product }) {
   };
 
   const toggleLike = () => setLiked(!liked);
-
-  // ✅ Find selected flavor's details
-  const currentVariant = variants.find((v) => v.label === selectedFlavor);
 
   return (
     <div className="w-full min-h-screen bg-white p-4 md:p-8 animate-fade-in">
@@ -54,7 +36,7 @@ export default function ProductDetail({ product }) {
           </div>
 
           {/* Main image display */}
-          <div className="flex-1 flex justify-center items-center bg-amber-100 rounded-xl p-4">
+          <div className="flex-1 flex justify-center items-center bg-white rounded-xl p-4">
             <img
               src={product.image}
               alt={product.name}
@@ -78,50 +60,15 @@ export default function ProductDetail({ product }) {
             </button>
           </div>
 
-          {/* ✅ Price with optional discount */}
+          {/* ✅ Price */}
           <div className="text-2xl font-bold text-blue-600">
-            ${currentVariant?.price?.toFixed(2)}
-            {currentVariant?.discount && (
-              <>
-                <span className="ml-2 text-sm text-gray-400 line-through">
-                  ${(10.99).toFixed(2)}
-                </span>
-                <span className="ml-2 bg-red-500 text-white text-xs px-2 py-[2px] rounded-full">
-                  {currentVariant.discount}% OFF
-                </span>
-              </>
-            )}
+            ${product.price?.toFixed(2)}
           </div>
 
           {/* ✅ Tagline */}
           <p className="text-green-600 text-sm">
             ✅ Freshness guarantee ・ WEEKLY SOLD 1K+
           </p>
-
-          {/* ✅ Flavor selection buttons */}
-          <div>
-            <p className="text-sm font-medium text-gray-700 mb-1">
-              Flavor: <span className="font-bold">{selectedFlavor}</span>
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {variants.map((v) => (
-                <button
-                  key={v.label}
-                  onClick={() => setSelectedFlavor(v.label)}
-                  className={clsx(
-                    "border rounded-md px-3 py-2 text-sm transition-all",
-                    selectedFlavor === v.label
-                      ? "border-blue-600 text-blue-600 font-semibold bg-blue-50"
-                      : "hover:border-blue-400"
-                  )}
-                >
-                  {v.label}
-                  <br />
-                  <span className="text-gray-500">${v.price}</span>
-                </button>
-              ))}
-            </div>
-          </div>
 
           {/* ✅ Add to Cart Button */}
           <motion.button
