@@ -52,8 +52,8 @@ export default function ProductDetail({ product }) {
           {/* Product title + like */}
           <div className="flex justify-between items-start">
             <div>
-              <h2 className="text-lg font-bold text-gray-600 uppercase tracking-widest">
-                AJINOMOTO
+              <h2 className="text-lg font-bold text-orange-600 uppercase tracking-widest">
+                Konbini
               </h2>
               <h1 className="text-2xl font-semibold">{product.name}</h1>
             </div>
