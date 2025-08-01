@@ -1,7 +1,4 @@
-import React, { useState } from "react";
-
-// Subcategories Component
-function CategoryChips({ selectedCategory, selectedSub, onSelect }) {
+export default function CategoryChips({ selectedCategory, selectedSub, onSelect }) {
   const allSubcategories = {
     "Frozen": ["All", "Ice Cream", "Dumplings", "Frozen Veg", "Nuggets", "Fries"],
     "Snacks": ["All", "Chips", "Biscuits", "Chocolates", "Namkeen", "Energy Bars"],
@@ -12,7 +9,7 @@ function CategoryChips({ selectedCategory, selectedSub, onSelect }) {
   const subcategories = allSubcategories[selectedCategory] || ["All"];
 
   return (
-    <div className="flex flex-wrap gap-2 mb-4 px-4">
+    <div className="flex flex-wrap gap-2 mb-4">
       {subcategories.map((sub) => (
         <button
           key={sub}
