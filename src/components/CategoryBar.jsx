@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
+const [selectedCategory, setSelectedCategory] = useState("Snacks");
 
 const categories = [
   { name: "Snacks", image: "https://img08.weeecdn.net/category/image/general_v2/ch/Snacks_ch_inactive.png!c120x120.auto" },
-  { name: "Frozen", image: "https://img08.weeecdn.net/category/image/general_v2/ch/Frozen_ch_inactive.png!c120x120.auto" },
+    { name: "Frozen", image: "https://img08.weeecdn.net/category/image/general_v2/ch/Frozen_ch_inactive.png!c120x120.auto" },
   { name: "Instant", image: "https://img08.weeecdn.net/category/image/general_v2/ch/Instant_ch_inactive.png!c120x120.auto" },
   { name: "Beverages", image: "https://img08.weeecdn.net/category/image/general_v2/ch/Beverages_ch_inactive.png!c120x120.auto" },
   { name: "Seasoning", image: "https://img08.weeecdn.net/category/image/general_v2/ch/Seasoning_ch_inactive.png!c120x120.auto" },
@@ -17,16 +18,18 @@ const categories = [
   { name: "Health", image: "https://img08.weeecdn.net/category/image/general_v2/ch/Health_ch_inactive.png!c120x120.auto" },
 ];
 
-export default function CategoryBar() {
-  const [selectedCategory, setSelectedCategory] = useState("Snacks"); // ✅ Use inside component
+export default function CategoryBar(){
+    const [selectedCategory, setSelectedCategory] = useState("Snacks"); // ✅ Use inside component
 
+
+ {
   return (
     <div className="sticky top-0 z-[30] bg-white shadow overflow-x-auto whitespace-nowrap py-3 px-4 border-gray-300 border-b">
       <div className="flex gap-4 min-w-full w-max">
         {categories.map((cat) => (
           <button
             key={cat.name}
-            onClick={() => setSelectedCategory(cat.name)}
+            onClick={() => onSelect(cat.name)}
             className={`flex flex-col items-center px-5 py-1 rounded-lg transition-all ${
               selectedCategory === cat.name
                 ? "bg-blue-100 text-blue-700 font-semibold"
